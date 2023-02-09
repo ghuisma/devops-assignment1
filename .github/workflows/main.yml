@@ -2,7 +2,7 @@ name: Builb Test and push
 on: [push]
 env:
   IMAGE_NAME: student_service
-  REPO_NAME: devops-assignment1
+  REPO_NAME: ghuisma
 jobs:
   build:
     runs-on: ubuntu-latest
