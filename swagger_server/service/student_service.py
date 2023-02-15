@@ -31,10 +31,14 @@ def add(student=None):
         if highest_student_id:
             student_id += highest_student_id["student_id"]
     # insert student into database
+    if student.gradeRecords:
+        gradeRecords = student.gradeRecords
+    else:
+        gradeRecords = []
     students_collection.insert_one({
         "first_name": student.first_name,
         "last_name": student.last_name,
-        "gradeRecords": list(map(lambda gradeRecord: gradeRecord.to_dict(), student.gradeRecords)),
+        "gradeRecords": list(map(lambda gradeRecord: gradeRecord.to_dict(), gradeRecords)),
         "student_id": student_id
     })
     return str(student_id)
