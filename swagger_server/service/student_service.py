@@ -15,12 +15,21 @@ def add(student=None):
     })
     if res:
         return 'already exists', 409
-    # calculate student_id
-    student_id = 1
-    highest_student_id = students_collection.find_one(
-        sort=[("student_id", DESCENDING)])
-    if highest_student_id:
-        student_id += highest_student_id["student_id"]
+    # check if student_id is already taken
+    if student.student_id:
+        res = students_collection.find_one({
+            "student_id": student.student_id
+        })
+        if res:
+            return 'already exists', 409
+        student_id = student.student_id
+    else:
+        # calculate student_id
+        student_id = 1
+        highest_student_id = students_collection.find_one(
+            sort=[("student_id", DESCENDING)])
+        if highest_student_id:
+            student_id += highest_student_id["student_id"]
     # insert student into database
     students_collection.insert_one({
         "first_name": student.first_name,
