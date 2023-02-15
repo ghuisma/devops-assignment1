@@ -1,4 +1,4 @@
-name: Builb Test and push
+name: Build Test and Push
 on: [push]
 env:
     IMAGE_NAME: student_service
