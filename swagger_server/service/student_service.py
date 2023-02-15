@@ -25,7 +25,7 @@ def add(student=None):
     students_collection.insert_one({
         "first_name": student.first_name,
         "last_name": student.last_name,
-        "grade_records": list(map(lambda gradeRecord: gradeRecord.to_dict(), student.grade_records)),
+        "gradeRecords": list(map(lambda gradeRecord: gradeRecord.to_dict(), student.gradeRecords)),
         "student_id": student_id
     })
     return str(student_id)

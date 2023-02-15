@@ -16,7 +16,7 @@ class Student(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, student_id: int = None, first_name: str = None, last_name: str = None, grade_records: List[GradeRecord] = None):  # noqa: E501
+    def __init__(self, student_id: int = None, first_name: str = None, last_name: str = None, gradeRecords: List[GradeRecord] = None):  # noqa: E501
         """Student - a model defined in Swagger
 
         :param student_id: The student_id of this Student.  # noqa: E501
@@ -25,26 +25,26 @@ class Student(Model):
         :type first_name: str
         :param last_name: The last_name of this Student.  # noqa: E501
         :type last_name: str
-        :param grade_records: The grade_records of this Student.  # noqa: E501
-        :type grade_records: List[GradeRecord]
+        :param gradeRecords: The gradeRecords of this Student.  # noqa: E501
+        :type gradeRecords: List[GradeRecord]
         """
         self.swagger_types = {
             'student_id': int,
             'first_name': str,
             'last_name': str,
-            'grade_records': List[GradeRecord]
+            'gradeRecords': List[GradeRecord]
         }
 
         self.attribute_map = {
             'student_id': 'student_id',
             'first_name': 'first_name',
             'last_name': 'last_name',
-            'grade_records': 'grade_records'
+            'gradeRecords': 'gradeRecords'
         }
         self._student_id = student_id
         self._first_name = first_name
         self._last_name = last_name
-        self._grade_records = grade_records
+        self._gradeRecords = gradeRecords
 
     @classmethod
     def from_dict(cls, dikt) -> 'Student':
@@ -125,22 +125,22 @@ class Student(Model):
         self._last_name = last_name
 
     @property
-    def grade_records(self) -> List[GradeRecord]:
-        """Gets the grade_records of this Student.
+    def gradeRecords(self) -> List[GradeRecord]:
+        """Gets the gradeRecords of this Student.
 
 
-        :return: The grade_records of this Student.
+        :return: The gradeRecords of this Student.
         :rtype: List[GradeRecord]
         """
-        return self._grade_records
+        return self._gradeRecords
 
-    @grade_records.setter
-    def grade_records(self, grade_records: List[GradeRecord]):
-        """Sets the grade_records of this Student.
+    @gradeRecords.setter
+    def gradeRecords(self, gradeRecords: List[GradeRecord]):
+        """Sets the gradeRecords of this Student.
 
 
-        :param grade_records: The grade_records of this Student.
-        :type grade_records: List[GradeRecord]
+        :param gradeRecords: The gradeRecords of this Student.
+        :type gradeRecords: List[GradeRecord]
         """
 
-        self._grade_records = grade_records
+        self._gradeRecords = gradeRecords
