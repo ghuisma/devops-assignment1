@@ -1,59 +1,41 @@
 import os
-from pymongo import MongoClient, DESCENDING
+import tempfile
+from functools import reduce
 
-mongo_uri = os.environ.get('MONGO_URI')
-client = MongoClient(mongo_uri)
-db = client.tutorial
-students_collection = db.students
+from tinydb import TinyDB, Query
+
+db_dir_path = tempfile.gettempdir()
+db_file_path = os.path.join(db_dir_path, "students.json")
+student_db = TinyDB(db_file_path)
 
 
 def add(student=None):
-    # check if student already exists
-    res = students_collection.find_one({
-        "first_name": student.first_name,
-        "last_name": student.last_name
-    })
+    queries = []
+    query = Query()
+    queries.append(query.first_name == student.first_name)
+    queries.append(query.last_name == student.last_name)
+    query = reduce(lambda a, b: a & b, queries)
+    res = student_db.search(query)
     if res:
         return 'already exists', 409
-    # check if student_id is already taken
-    if student.student_id:
-        res = students_collection.find_one({
-            "student_id": student.student_id
-        })
-        if res:
-            return 'already exists', 409
-        student_id = student.student_id
-    else:
-        # calculate student_id
-        student_id = 1
-        highest_student_id = students_collection.find_one(
-            sort=[("student_id", DESCENDING)])
-        if highest_student_id:
-            student_id += highest_student_id["student_id"]
-    # insert student into database
-    if student.gradeRecords:
-        gradeRecords = student.gradeRecords
-    else:
-        gradeRecords = []
-    students_collection.insert_one({
-        "first_name": student.first_name,
-        "last_name": student.last_name,
-        "gradeRecords": list(map(lambda gradeRecord: gradeRecord.to_dict(), gradeRecords)),
-        "student_id": student_id
-    })
-    return str(student_id)
+
+    doc_id = student_db.insert(student.to_dict())
+    student.student_id = doc_id
+    return student.student_id
 
 
 def get_by_id(student_id=None, subject=None):
-    student = students_collection.find_one(
-        {"student_id": student_id}, {"_id": False})
+    student = student_db.get(doc_id=int(student_id))
     if not student:
         return 'not found', 404
+    student['student_id'] = student_id
+    print(student)
     return student
 
 
 def delete(student_id=None):
-    result = students_collection.delete_one({"student_id": student_id})
-    if result.deleted_count != 1:
+    student = student_db.get(doc_id=int(student_id))
+    if not student:
         return 'not found', 404
+    student_db.remove(doc_ids=[int(student_id)])
     return student_id

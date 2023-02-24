@@ -107,6 +107,7 @@ components:
                     items:
                         $ref: "#/components/schemas/GradeRecord"
             example:
+                student_id: 123
                 first_name: John
                 last_name: Doe
                 gradeRecords:
